@@ -79,3 +79,28 @@ Commit the changes
 git add . 
 git commit -m "Initialise basic npm package.json"
 ```
+
+### 3. Install Babel 
+
+Here we perform the basic install and setup for Babel.
+
+install the dependencies we care about, then create the babel config file `.babelrc`
+
+```
+npm install --save-dev babel-cli babel-core babel-loader 
+npm install --save-dev babel-preset-env babel-preset-react
+> .babelrc
+```
+
+In the .babelrc file, add the basic configuration:
+```
+{
+  "presets": ["env", "react"]
+}
+```
+
+Commit the changes
+
+```
+git add . 
+git commit -m "Add basic Babel setup"
