@@ -1,0 +1,19 @@
+{
+  "name": "react-redux-scratch",
+  "version": "1.0.0",
+  "description": "This is a startup project to act as a seed for a react redux project. \r Alternatively, the commits can be used to learn all the steps required for setting up the project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jebbinSCL/react-redux-scratch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/jebbinSCL/react-redux-scratch/issues"
+  }
+}
