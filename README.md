@@ -104,3 +104,95 @@ Commit the changes
 ```
 git add . 
 git commit -m "Add basic Babel setup"
+```
+
+### 4. Install and setup Webpack
+
+Install webpack 
+
+```
+npm install --save-dev webpack
+```
+
+Create a source folder `src` and add a basic `main.js` file to it:
+
+main.js:
+```
+console.log('Hello world!');
+```
+
+We've have not configured webpack yet, but it is possible to manually call it to create a bundle now. We will output the bundle to the `dist/` (distribution) folder: 
+
+```
+npx webpack ./src/main.js --output-filename ./dist/main.bundle.js
+```
+
+Add the output `dist/` folder to the `.gitignore`
+
+Now we need to create the core configuration for webpack. Create a folder `config/` and a file `webpack.config.js` within it. 
+Place the following inside it:
+
+```
+const path = require('path');
+const fs = require('fs');
+
+//Resolve the root directory of the application to create absolute paths
+const appDirectory = fs.realpathSync(process.cwd());
+const getAbsolutePath = relativePath => path.resolve(appDirectory, relativePath);
+
+// Paths constants
+const paths = {
+    DIST: getAbsolutePath('dist'),
+    JS: getAbsolutePath('src'),
+};
+
+// Webpack configuration
+module.exports = {
+    // Context: The base directory, for resolving entry points and loaders from configuration. https://webpack.js.org/configuration/entry-context/#context
+    context: paths.JS,
+    // Entrypoint: https://webpack.js.org/concepts/entry-points/
+    entry: path.join(paths.JS, 'main.js'),
+    // Output: https://webpack.js.org/configuration/output/
+    output: {
+        path: paths.DIST,
+        filename: 'main.bundle.js',
+    },
+};
+```
+
+Now we can run webpack and specify the configuration
+
+```
+npx webpack --config ./config/webpack.config.js
+```
+
+Now we can an npm build task to simplfy running the build. In the `package.json` file, modify the scripts section so that it looks like this: 
+```
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "webpack --config ./config/webpack.config.js"
+},
+```
+
+Now we can run the build using a basic npm build task
+
+```
+npm run build
+```
+
+Commit the changes
+
+```
+git add . 
+git commit -m "Add basic source folder. Add webpack, core webpack configuration and basic npm build task
+"
+```
+
+### References
+- Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/
+- Build Your Own Starter: https://www.andrewhfarmer.com/build-your-own-starter/#0-intro
+- Create React App: https://github.com/facebookincubator/create-react-app
+
+
+
+

@@ -4,7 +4,8 @@
   "description": "This is a startup project to act as a seed for a react redux project. \r Alternatively, the commits can be used to learn all the steps required for setting up the project.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.10.0"
   }
 }
