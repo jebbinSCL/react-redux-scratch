@@ -288,8 +288,39 @@ Finally, Commit the changes
 
 ```
 git add . 
-git commit -m "Add basic source folder. Add webpack, core webpack configuration and basic npm build task
-"
+git commit -m "Setup webpack dev server to serve basic index.html and javascript"
+```
+
+### Configure Babel
+At the moment we have done the most basic configuration for [Babel](https://babeljs.io/). We have installed all of the dependencies, and we have created the basic config file: `.babelrc`. Now we need to configure it to work with webpack. Add all of the following to the module.exports: 
+```
+// Tell webpack to use babel-loader for .js and .jsx files
+module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+        ],
+      },
+    ],
+},
+// Enable importing JS files wihtout specifying their extension
+// So we can write: import MyComponent from './my-component';
+// Instead of: import MyComponent from './my-component.jsx';
+resolve: {
+    extensions: ['.js', '.jsx'],
+},
+```
+
+Nothing will change yet, but if you add any modern javascript features it will be transpiled. 
+
+Commit the changes
+
+```
+git add . 
+git commit -m "Configure Babel"
 ```
 
 

@@ -29,4 +29,22 @@ module.exports = {
           template: path.join(paths.SRC, 'index.html'),
         }),
     ],
+    // Tell webpack to use babel-loader for .js and .jsx files
+    module: {
+        rules: [
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: [
+              'babel-loader',
+            ],
+          },
+        ],
+    },
+    // Enable importing JS files wihtout specifying their extension
+    // So we can write: import MyComponent from './my-component';
+    // Instead of: import MyComponent from './my-component.jsx';
+    resolve: {
+        extensions: ['.js', '.jsx'],
+    },
 };
