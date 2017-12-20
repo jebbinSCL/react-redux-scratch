@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 //Resolve the root directory of the application to create absolute paths
 const appDirectory = fs.realpathSync(process.cwd());
@@ -8,6 +9,7 @@ const getAbsolutePath = relativePath => path.resolve(appDirectory, relativePath)
 // Paths constants
 const paths = {
     DIST: getAbsolutePath('dist'),
+    SRC: getAbsolutePath('src'), 
     JS: getAbsolutePath('src'),
 };
 
@@ -22,4 +24,9 @@ module.exports = {
         path: paths.DIST,
         filename: 'main.bundle.js',
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: path.join(paths.SRC, 'index.html'),
+        }),
+    ],
 };

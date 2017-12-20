@@ -188,6 +188,114 @@ git commit -m "Add basic source folder. Add webpack, core webpack configuration 
 "
 ```
 
+### Setup the Webpack dev server
+Documentation: https://webpack.js.org/configuration/dev-server/
+
+Lets setup the dev server so that we can view the application in the browser during development. First install the dev server
+
+```
+npm install --save-dev webpack-dev-server
+```
+
+We will also modify the scripts section of the `package.json` file to simplify running the dev server. Add the following to the scripts section: 
+```
+"dev": "webpack-dev-server --config ./config/webpack.config.js",
+```
+
+Now we can run 
+```
+npm run dev
+```
+To start the dev server. At the moment this will simply server our project files at `http://localhost:8080`.
+
+Now we will add a basic main html page. Create a `index.html` file in the `src` folder with the following: 
+
+```
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>React Redux Scratch</title>
+  </head>
+  <body>
+    <h1>React Redux Scratch</h1>
+  </body>
+</html>
+```
+
+We will also need to update the webpack configuration to use the src folder as the content base:
+
+Add `SRC` to the path constants
+```
+SRC: getAbsolutePath('src'), 
+```
+
+and add a `devServer` configuration section with the following: 
+```
+devServer: {
+  contentBase: paths.SRC,
+},
+```
+
+Now running `npm run dev` will serve our html, but we aren't doing anything with Javascript. We'll need to inject out bundled JavaScript into the `index.html` with the [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) . Install it with:
+
+```
+npm install --save-dev html-webpack-plugin
+```
+
+Now update the configuration to use it, by importing it and replacing the devServer configuration with configuration for the plugin. The new full config looks like this:
+
+```
+const path = require('path');
+const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+//Resolve the root directory of the application to create absolute paths
+const appDirectory = fs.realpathSync(process.cwd());
+const getAbsolutePath = relativePath => path.resolve(appDirectory, relativePath);
+
+// Paths constants
+const paths = {
+    DIST: getAbsolutePath('dist'),
+    SRC: getAbsolutePath('src'), 
+    JS: getAbsolutePath('src'),
+};
+
+// Webpack configuration
+module.exports = {
+    // Context: The base directory, for resolving entry points and loaders from configuration. https://webpack.js.org/configuration/entry-context/#context
+    context: paths.JS,
+    // Entrypoint: https://webpack.js.org/concepts/entry-points/
+    entry: path.join(paths.JS, 'main.js'),
+    // Output: https://webpack.js.org/configuration/output/
+    output: {
+        path: paths.DIST,
+        filename: 'main.bundle.js',
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: path.join(paths.SRC, 'index.html'),
+        }),
+    ],
+};
+```
+
+Now if we run `npm run dev`, our javascript will be injected to the `index.html` page, which is being used as a template. 
+
+Finally, Commit the changes
+
+```
+git add . 
+git commit -m "Add basic source folder. Add webpack, core webpack configuration and basic npm build task
+"
+```
+
+
+
+
+
 ### References
 - Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/
 - Build Your Own Starter: https://www.andrewhfarmer.com/build-your-own-starter/#0-intro
