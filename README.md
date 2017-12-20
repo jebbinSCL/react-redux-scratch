@@ -320,17 +320,67 @@ Commit the changes
 
 ```
 git add . 
-git commit -m "Configure Babel"
+git commit -m "Configure Babel for ES5+ features"
 ```
 
+### Install React
+We can finally install [React](https://reactjs.org/). 
 
+First install it as a regular dependency: 
 
+```
+npm install --save react react-dom
+```
+
+And modify the `index.html` to add a div which will will render our React app to: 
+
+```
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>React Redux Scratch</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+Also, replace the javascript in main.js with a basic react Component. 
+
+```
+import React from 'react';
+import { render } from 'react-dom';
+
+function Hello() {
+    return (
+        <div>
+          Hello from react
+        </div>
+    );
+}
+
+render(<Hello />, document.getElementById('root'));
+```
+
+Now if you run `npm run dev` we have a basic react application. 
+
+Commit the changes
+
+```
+git add . 
+git commit -m "Complete setup of basic react application"
+```
 
 
 ### References
 - Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/
 - Build Your Own Starter: https://www.andrewhfarmer.com/build-your-own-starter/#0-intro
 - Create React App: https://github.com/facebookincubator/create-react-app
+- Setting up a React project from scratch: https://medium.com/netscape/setting-up-a-react-project-from-scratch-d62f38ab6d97
 
 
 
