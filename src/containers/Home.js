@@ -1,10 +1,14 @@
-import React from 'react';
+import { connect } from 'react-redux';
 import Counter from '../components/Counter';
+import { increaseCounter, decreaseCounter } from '../actions'
+import { bindActionCreators } from "redux";
 
-const Home = () => (
-    <div>
-        <Counter />
-    </div>
-)
+const mapStateToProps = (state, ownProps) => {
+    return {
+        count: state.counter.count
+    };
+}
 
-export default Home
+const requiredActions = { increaseCounter, decreaseCounter };
+
+export default connect(mapStateToProps, requiredActions)(Counter); 

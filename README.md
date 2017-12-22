@@ -485,6 +485,113 @@ git add .
 git commit -m "Install Redux and React Redux. Add basic outline for Counter app"
 ```
 
+#### Completing the basic react redux app
+At this point we have done the minimum to have a connected static redux app, but now we want to be able to actually use the app, which means adding actions, actually using the applicaton state and reponding to user events. 
+
+We'll start by adding our action types and creators. Add a `actions` folder and an `index.js` file and `types.js` file to it. Add the following to them: 
+
+index.js:
+```
+import { INCREASE_COUNTER, DECREASE_COUNTER } from './types';
+
+export function increaseCounter() {
+    return {
+        type: INCREASE_COUNTER
+    };
+}
+
+export function decreaseCounter() {
+    return {
+        type: DECREASE_COUNTER
+    };
+}
+``` 
+
+types.js:
+```
+export const INCREASE_COUNTER = 'INCREASE_COUNTER';
+export const DECREASE_COUNTER = 'DECREASE_COUNTER';
+```
+
+Now we will add a reducer to deal with the actions. Add a new reducer: 
+`reducers/counter.js` with the following: 
+
+```
+import { INCREASE_COUNTER, DECREASE_COUNTER } from '../actions/types';
+
+const initialState = {
+    count: 0,
+};
+
+export default function counter(state = initialState, action) {
+    switch (action.type) {
+        case INCREASE_COUNTER: 
+            return { count: state.count + 1};
+        case DECREASE_COUNTER: 
+            return { count: state.count - 1};
+        default: 
+            return state;
+    }
+};
+```
+
+and update the index file `reducers/index.js` to: 
+```
+import { combineReducers } from 'redux';
+import counter from './counter';
+
+const rootAppReducer = combineReducers({ counter });
+
+export default rootAppReducer
+```
+
+Now we can modify the `Home` container to be a proper redux container that is hooked up to the store and actions. 
+
+`Home.js`:
+```
+import { connect } from 'react-redux';
+import Counter from '../components/Counter';
+import { increaseCounter, decreaseCounter } from '../actions'
+import { bindActionCreators } from "redux";
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        count: state.counter.count
+    };
+}
+
+const requiredActions = { increaseCounter, decreaseCounter };
+
+export default connect(mapStateToProps, requiredActions)(Counter); 
+```
+
+Now update the Counter container to start using out actions and the count from props. 
+
+`Counter.js`:
+```
+import React from 'react';
+import PropTypes from 'prop-types'
+
+const Counter = ({ count, increaseCounter, decreaseCounter }) => (
+    <div>
+        <p>
+            Current count: {count}
+            <button onClick={() => increaseCounter()}> + </button> 
+            <button onClick={() => decreaseCounter()}> - </button>
+        </p>
+    </div>
+);
+
+Counter.propTypes = {
+    count: PropTypes.number.isRequired,
+    increaseCounter: PropTypes.func.isRequired,
+    decreaseCounter: PropTypes.func.isRequired,
+}
+
+export default Counter
+```
+Now we have a working basic counter app, and we can commit our changes as above. 
+
 ### References
 - Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/
 - Build Your Own Starter: https://www.andrewhfarmer.com/build-your-own-starter/#0-intro
