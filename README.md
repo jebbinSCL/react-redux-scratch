@@ -375,6 +375,115 @@ git add .
 git commit -m "Complete setup of basic react application"
 ```
 
+### Moving towards a basic React redux project
+Now we have a basic react project, lets work towards a basic counter React Redux application. We will create a simple two page application with a header. It will have a home and about page. The home page will display a count that can be incremented, and the about page will have a simple about message. The header will have navigation links for the two pages, and will make it clear which page is active. We will also allow navigation between the pages using react router.
+
+#### Install Redux and React-Redux and create core components. 
+
+First, lets simply install `redux` and `react-redux`. 
+
+```
+npm install --save redux react-redux
+```
+
+Now lets start creating out containers and components. First we'll do the home page, with a header and counter. First we will add an empty initial state for the app. 
+
+Create a `reducers` folder under source, and add a file `index.js` to it. Add the following as our empty intial state and reducer. 
+
+```
+const rootAppReducer = (state = {}, action) => state;
+
+export default rootAppReducer
+```
+
+Now we will add a `Root` container as the main container of the app. We will replace the Hello component from above with this in `main.js`. You can do this first. Change `main.js` to: 
+
+```
+import React from 'react';
+import { render } from 'react-dom';
+import Root from './containers/Root'
+
+render(<Root />, document.getElementById('root'));
+```
+
+Now create a containers folder and a `Root.js` within it, with the following within it. 
+
+```
+import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootAppReducer from '../reducers';
+import Header from './Header';
+import Home from './Home';
+
+const store = createStore(rootAppReducer) 
+
+const Root = () => (
+    <Provider store={store}>
+        <div>
+            <Header />
+            <Home />
+        </div>
+    </Provider>
+)
+
+export default Root
+```
+
+Now we need to create the header and home containers. 
+Create the file `containers/Header.js` with the following: 
+
+```
+import React from 'react';
+
+const Header = () => (
+    <p>
+        <span>Home</span>
+        <span>About</span>
+    </p>
+)
+
+export default Header
+```
+
+and `containers/Home.js` with the following: 
+
+```
+import React from 'react';
+import Counter from '../components/Counter';
+
+const Home = () => (
+    <div>
+        <Counter />
+    </div>
+)
+
+export default Home
+```
+
+Finally create the Counter container.
+Create and fill the file `components/Counter.js` with the following:
+
+```
+import React from 'react';
+
+const Counter = () => (
+    <p>
+        Current count: 0
+        <button> + </button> 
+        <button> - </button>
+    </p>
+)
+
+export default Counter
+```
+
+Now we have a basic outline for the Home page of the app (Can be viewed with `npm run dev`). Now we'll commit this. 
+
+```
+git add . 
+git commit -m "Install Redux and React Redux. Add basic outline for Counter app"
+```
 
 ### References
 - Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/

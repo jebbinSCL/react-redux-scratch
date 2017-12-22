@@ -1,12 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
+import Root from './containers/Root'
 
-function Hello() {
-    return (
-        <div>
-          Hello from react
-        </div>
-    );
-}
-
-render(<Hello />, document.getElementById('root'));
+render(<Root />, document.getElementById('root'));
