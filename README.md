@@ -592,6 +592,104 @@ export default Counter
 ```
 Now we have a working basic counter app, and we can commit our changes as above. 
 
+### React Router
+
+Now that we have a basic counter app, lets add some navigation and an about page. First we'll install [React router](https://reacttraining.com/react-router/).
+
+```
+npm install --save react-router react-router-dom
+```
+
+Now lets create a about page. Create an `About.js` file under /components with the following: 
+
+`About.js`: 
+
+```
+import React from 'react';
+
+const About = () => (
+    <div>
+        <h1>About</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat quam lorem, sed pretium erat blandit sed. Nam sed leo nulla. Etiam justo nibh, facilisis eget sodales vitae, bibendum vitae libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin volutpat risus et volutpat ultrices. Phasellus at laoreet lectus, eu scelerisque nulla. Nullam sit amet malesuada nunc, ut consectetur libero. Quisque at purus nibh. Donec sed felis mollis, elementum mi vel, placerat sem. In hac habitasse platea dictumst. Vestibulum porttitor consectetur felis eu vehicula. Sed sodales nibh et ultrices efficitur. Maecenas accumsan mi non lectus blandit consequat. Vivamus a nibh sit amet massa auctor fringilla.
+        </p>
+    </div>
+);
+
+export default About;
+```
+
+Now lets use React router to create some routes for our pages. 
+
+Add a `Routes.js` file to the `/components` folder: 
+
+`Routes.js`
+```
+import React from 'react';
+import { 
+    BrowserRouter as Router,
+    Route,
+    Switch
+} from 'react-router-dom';
+import Home from '../containers/Home';
+import About from './About';
+import Header from '../containers/Header';
+
+const Routes = () => (
+    <Router>
+        <div>
+            <Header />
+            <Switch>
+                <Route exact path='/' component={Home}/>
+                <Route exact path='/about' component={About}/>
+            </Switch>
+        </div>
+    </Router>
+);
+
+export default Routes;
+```
+
+Modify our `Root.js` container to use the Routes: 
+
+`Root.js`: 
+```
+import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootAppReducer from '../reducers';
+import Home from './Home';
+import Routes from '../components/Routes';
+
+const store = createStore(rootAppReducer) 
+
+const Root = () => (
+    <Provider store={store}>
+        <Routes />
+    </Provider>
+)
+
+export default Root;
+```
+
+Modify the `Header.js` container to use links for navigation: 
+`Header.js`:
+```
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Header = () => (
+    <p>
+        <span><Link to="/">Home</Link></span>
+        <span><Link to="/about">About</Link></span>
+    </p>
+)
+
+export default Header;
+```
+
+Now we have basic routing between out two pages, and we can commit our changes. 
+
 ### References
 - Setting up Webpack, Babel and React from scratch, revisited:  https://stanko.github.io/webpack-babel-react-revisited/
 - Build Your Own Starter: https://www.andrewhfarmer.com/build-your-own-starter/#0-intro

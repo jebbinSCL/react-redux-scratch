@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
     <p>
-        <span>Home</span>
-        <span>About</span>
+        <span><Link to="/">Home</Link></span>
+        <span><Link to="/about">About</Link></span>
     </p>
 )
 
-export default Header
+export default Header;

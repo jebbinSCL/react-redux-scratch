@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const Counter = ({ count, increaseCounter, decreaseCounter }) => (
     <div>
+        <h1>Counter</h1>
         <p>
             Current count: {count}
             <button onClick={() => increaseCounter()}> + </button> 
@@ -17,4 +18,4 @@ Counter.propTypes = {
     decreaseCounter: PropTypes.func.isRequired,
 }
 
-export default Counter
+export default Counter;
